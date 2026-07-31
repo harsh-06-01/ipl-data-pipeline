@@ -89,3 +89,29 @@ WHERE b.rn = 1 AND w.rn = 1
 ORDER BY b.year DESC;
 
 SELECT * FROM mart.year_wise_leaderboard ORDER BY year DESC;
+
+-- ============================================
+-- MART: All-Rounder Rankings (Career Level)
+-- ============================================
+CREATE OR REPLACE TABLE mart.all_rounder_rankings AS
+
+SELECT
+    player_name,
+    total_runs_scored,
+    total_wickets_taken,
+    career_batting_average,
+    career_bowling_average,
+    
+    -- Simple all-rounder score: reward runs and wickets, 
+    -- but only count players with meaningful contribution in both
+    (total_runs_scored * 1) + (total_wickets_taken * 20) AS all_rounder_score
+
+FROM mart.player_career_summary
+
+WHERE total_runs_scored > 500        -- meaningful batting contribution
+  AND total_wickets_taken > 20        -- meaningful bowling contribution
+
+ORDER BY all_rounder_score DESC
+LIMIT 20;
+
+SELECT * FROM mart.all_rounder_rankings;
