@@ -22,6 +22,7 @@ with DAG(
     start_date=datetime(2026, 8, 1),
     catchup=False,
     tags=['ipl', 'data-engineering'],
+    template_searchpath='/opt/airflow',
 ) as dag:
 
     def upload_to_s3_task():
@@ -46,16 +47,15 @@ with DAG(
     )
 
     task_staging = SnowflakeOperator(
-        task_id='run_staging_transform',
-        snowflake_conn_id='snowflake_default',
-        sql='transformation/staging_transforms.sql',
-    )
+    task_id='run_staging_transform',
+    snowflake_conn_id='snowflake_default',
+    sql='transformation/staging_transforms.sql',
+)
 
-    task_mart = SnowflakeOperator(
-        task_id='run_mart_transform',
-        snowflake_conn_id='snowflake_default',
-        sql='transformation/mart_transforms.sql',
-    )
-
+task_mart = SnowflakeOperator(
+    task_id='run_mart_transform',
+    snowflake_conn_id='snowflake_default',
+    sql='transformation/mart_transforms.sql',
+)
     # Define task dependencies - this is the actual pipeline order
-    task_upload_s3 >> task_load_raw >> task_staging >> task_mart
+task_upload_s3 >> task_load_raw >> task_staging >> task_mart
