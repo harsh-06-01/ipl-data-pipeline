@@ -57,5 +57,5 @@ task_mart = SnowflakeOperator(
     snowflake_conn_id='snowflake_default',
     sql='transformation/mart_transforms.sql',
 )
-    # Define task dependencies - this is the actual pipeline order
+    # Defining Task Dependencies
 task_upload_s3 >> task_load_raw >> task_staging >> task_mart
