@@ -2,7 +2,6 @@
 
 An end-to-end data engineering pipeline that ingests IPL (Indian Premier League) player statistics, transforms them through a 3-layer warehouse architecture, and serves the results through an interactive dashboard — orchestrated entirely by Apache Airflow.
 
-**[View Live Dashboard →](https://datastudio.google.com/reporting/b697f9c0-925a-4be6-b60c-51044ba01a49)**
 
 ---
 
